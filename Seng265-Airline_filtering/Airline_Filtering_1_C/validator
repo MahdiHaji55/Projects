@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jan 26 09:03:23 2023
+
+@author: rivera
+"""
+from sys import argv as args
+from os.path import isfile
+
+PROGRAM_ARGS: str = '<test_number>'
+USAGE_MSG: str = f'Usage: {args[0]} {PROGRAM_ARGS}'
+EXPECTED_OUTPUT_FILE: str = 'output.txt'
+
+
+def read_lines_from_file(file_path: str) -> list:
+    """Reads the lines from a text-based file.
+            Parameters
+            ----------
+                file_path : str
+                    the path of the file to read
+
+            Returns
+            -------
+                list
+                    a list with the lines of the file read
+    """
+    lines_read = []
+    file = open(file_path, 'r')
+    lines: list = file.readlines()
+    for line in lines:
+        lines_read.append(line)
+    file.close()
+    return lines_read
+
+
+def main():
+    """Main entry point of the program."""
+    if len(args) <= len(PROGRAM_ARGS.split(" ")):
+        print(USAGE_MSG)
+    else:
+        test_file: str = f'test0{args[1]}.txt'
+        if not isfile(EXPECTED_OUTPUT_FILE) or not isfile(test_file):
+            print(f'ERROR: Make sure that {EXPECTED_OUTPUT_FILE} is produced by your program and that {test_file} exists.')
+        else:
+            expected_lines: list = read_lines_from_file(file_path=test_file)
+            provided_lines: list = read_lines_from_file(file_path=EXPECTED_OUTPUT_FILE)
+            # compare lines
+            is_correct = True
+            if len(provided_lines) != len(expected_lines):
+                is_correct = False
+            else:
+                for i in range(len(expected_lines)):
+                    expected_line: str = expected_lines[i]
+                    provided_line: str = provided_lines[i]
+                    if provided_line.rstrip() != expected_line.rstrip():
+                        is_correct = False
+            print(f'Test {args[1]} Passed: {is_correct}')
+            if not is_correct:
+                print(f'Use the diff command to see the differences between {EXPECTED_OUTPUT_FILE} and {test_file}:')
+                print(f'diff {EXPECTED_OUTPUT_FILE} {test_file}')
+
+
+if __name__ == '__main__':
+    main()

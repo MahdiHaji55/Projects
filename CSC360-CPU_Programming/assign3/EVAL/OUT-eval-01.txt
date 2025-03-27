@@ -1,0 +1,16 @@
+[00001] id=0001 NEW
+[00001] IDLE
+[00002] id=0001 req=2 used=1 queue=1
+[00003] id=0001 req=2 used=2 queue=1
+[00004] IDLE
+[00005] IDLE
+[00006] id=0001 req=2 used=1 queue=1
+[00007] id=0001 req=2 used=2 queue=1
+[00008] IDLE
+[00009] IDLE
+[00010] id=0001 req=2 used=1 queue=1
+[00011] id=0001 req=2 used=2 queue=1
+[00012] IDLE
+[00013] IDLE
+[00014] id=0001 EXIT wt=0 tat=6
+[00014] IDLE

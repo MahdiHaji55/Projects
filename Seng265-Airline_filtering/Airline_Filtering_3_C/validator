@@ -1,0 +1,205 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Feb 08:50:21 2023
+@author: rivera
+"""
+from sys import argv as args
+import re
+import os
+from csv_diff import load_csv, compare
+
+TEST_FILES_FOLDER: str = 'tests'
+TEST_FILES: list = [os.path.join(TEST_FILES_FOLDER, 'test01.csv'),
+                    os.path.join(TEST_FILES_FOLDER, 'test02.csv'),
+                    os.path.join(TEST_FILES_FOLDER, 'test03.csv'),
+                    os.path.join(TEST_FILES_FOLDER, 'test04.csv'),
+                    os.path.join(TEST_FILES_FOLDER, 'test05.csv')]
+REQUIRED_FILES: list = ['route_manager', 'routes-airlines-airports.yaml']
+TESTER_PROGRAM_NAME: str = 'tester'
+PROGRAM_ARGS: str = '<question(e.g.,1,2,3,4,5)>'
+USAGE_MSG: str = f'Usage: ./{TESTER_PROGRAM_NAME} {PROGRAM_ARGS} or ./{TESTER_PROGRAM_NAME}'
+
+
+def required_files_exist() -> bool:
+    """Determines whether there are missing files.
+            Returns
+            -------
+                bool
+    """
+    exist: bool = True
+    for file in REQUIRED_FILES + TEST_FILES:
+        if not os.path.isfile(file):
+            exist = False
+            break
+    return exist
+
+
+def print_message(is_error: bool, message: str) -> None:
+    """Prints a message to stdout.
+            Parameters
+            ----------
+                is_error : bool, required
+                    Indicates whether the message is an error.
+                message : str, required
+                    The message to be printed out.
+    """
+    message_type: str = 'ERROR' if is_error else 'INFO'
+    print(f'[{TESTER_PROGRAM_NAME}] ({message_type}): {message}')
+
+
+def generate_test_args(test: str) -> list:
+    """Generates the arguments for the tests.
+            Parameters
+            ----------
+                test : str, required
+                    The question for the args to be generated. None if args for all test cases should be generated.
+            Returns
+            -------
+                list
+                    A list with all the args generated.
+    """
+    test_args = []
+    template: str = '--DATA="routes-airlines-airports.yaml" --QUESTION=<THE_QUESTION> --N=<THE_N>'
+    possible_arguments: list = [
+        (1, 10),
+        (1, 15),
+        (2, 15),
+        (2, 40),
+        (3, 5)
+    ]
+    if test is None:
+        for argument in possible_arguments:
+            test_arg: str = re.sub("<THE_QUESTION>", str(argument[0]), template)
+            test_arg = re.sub("<THE_N>", str(argument[1]), test_arg)
+            test_args.append(test_arg)
+    else:
+        test_arg: str = re.sub("<THE_QUESTION>", str(possible_arguments[int(test)-1][0]), template)
+        test_arg = re.sub("<THE_N>", str(possible_arguments[int(test)-1][1]), test_arg)
+        test_args.append(test_arg)
+    return test_args
+
+
+def generate_execution_commands(generated_args: list) -> list:
+    """Generates the execution commands for the tests.
+            Parameters
+            ----------
+                generated_args : list, required
+                    The args to be passed to the commands
+            Returns
+            -------
+                list
+                    A list with all the commands generated.
+    """
+    commands: list = []
+    template: str = './route_manager '
+    for arg in generated_args:
+        commands.append(template + arg)
+    return commands
+
+
+def validate_tests(execution_commands: list, test: str) -> None:
+    """Generates the execution commands for the tests.
+            Parameters
+            ----------
+                execution_commands : list, required
+                    The generated commands.
+                test: str, required
+                    The test number
+    """
+    separator: str = '----------------------------------------'
+    print_message(is_error=False, message=f'Tests to run: {len(execution_commands)}')
+    tests_passed: int = 0
+    result = ''
+    for i in range(len(execution_commands)):
+        test_int: int = i+1 if test is None else int(test)
+        print_message(is_error=False, message=f'|Test {test_int}|' + separator)
+        command: str = execution_commands[i]
+        required: str = 'output.csv'
+        # delete existing files
+        if os.path.isfile(required):
+            os.remove(required)
+        test_pass: bool = True
+        print_message(is_error=False, message=f'Attempting: {command}')
+        # execute command
+        os.system(command=command)
+        # validate generated files
+        if not os.path.isfile(required):
+            print_message(is_error=False, message=f'route_manager should generate {required} for this test.')
+            test_pass = False
+        else:
+            # read csvs
+            produced_data = load_csv(open(required))
+            expected_data = load_csv(open(os.path.join(TEST_FILES_FOLDER, f'test0{test_int}.csv')))
+            # obtain the differences
+            result = compare(produced_data, expected_data)
+            order_differences: bool = False
+            # compare
+            if len(result['added']) > 0 or len(result['removed']) > 0 or len(result['changed']) > 0 or len(
+                    result['columns_added']) > 0 or len(result['columns_removed']) > 0:
+                test_pass = False
+            else:
+                # validate order
+                produced_elements: list[tuple] = []
+                expected_elements: list[tuple] = []
+                try:
+                    # produced
+                    for key in produced_data.keys():
+                        value: dict = produced_data[key]
+                        produced_elements.append((value['subject'], value['statistic']))
+                    # expected
+                    for key in expected_data.keys():
+                        value: dict = expected_data[key]
+                        expected_elements.append((value['subject'], value['statistic']))
+                    # verify order
+                    for j in range(len(produced_elements)):
+                        produced: tuple = produced_elements[j]
+                        expected: tuple = expected_elements[j]
+                        if not produced == expected:
+                            test_pass = False
+                            order_differences = True
+                            break
+                except:
+                    test_pass = False
+        print_message(is_error=False, message=f'TEST PASSED: {test_pass}')
+        if not test_pass and os.path.isfile(required):
+            if not order_differences:
+                print_message(is_error=False, message=f'DIFFERENCES: {result}')
+            else:
+                print_message(is_error=False, message=f'DIFFERENCES: wrong order in rows.')
+        if test_pass:
+            tests_passed += 1
+    print_message(is_error=False, message=separator + '--------')
+    print_message(is_error=False, message=f'TESTS PASSED: {tests_passed}/{len(execution_commands)}')
+
+
+def main():
+    """Main entry point of the program."""
+    if len(args) - 1 > len(PROGRAM_ARGS.split(" ")):
+        print_message(is_error=True, message=USAGE_MSG)
+    else:
+        test: str = None
+        if len(args) != 1:
+            test = args[1]
+        # validate required files
+        if not required_files_exist():
+            print_message(is_error=True, message=f'Required files: {REQUIRED_FILES + TEST_FILES}')
+        else:
+            # validate args
+            valid_args: bool = True
+            try:
+                if test is not None:
+                    test_int: int = int(test)
+                    if test_int not in [1, 2, 3, 4, 5]:
+                        valid_args = False
+            except ValueError:
+                valid_args = False
+            if valid_args:
+                commands: str = generate_execution_commands(generated_args=generate_test_args(test=test))
+                validate_tests(execution_commands=commands, test=test)
+            else:
+                print_message(is_error=True, message=USAGE_MSG)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,31 @@
+SENG 265 -- SPRING 2023
+ASSIGNMENT #1 EVALUATION
+========================
+
+Student name:   Mahdi Haji Hosseini
+Student number: V00968642
+Student login:  mahdihajihosseini
+
+-----
+(1) route_manager.c submitted and named appropriately; compiles and runs
+without errors or warnings.
+
+- Yes, the submitted file is correct, and the code
+  compiles successfully without errors or warnings.
+-----
+(2) Tests passed (and further comments)
+- All tests passed. Great work.
+
+-----
+(3) Code formatting and structure:
+
+Positive aspects:
+- Good formatting and structure of the code that facilitates reading
+  and understanding.
+
+Improvement opportunities:
+
+-----
+
+GRADE: A+
+MARKS: 100

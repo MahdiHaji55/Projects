@@ -1,0 +1,6 @@
+FLIGHTS FROM India TO Tokyo, Japan:
+AIRLINE: Jet Airways (JAI) ORIGIN: Chhatrapati Shivaji Intl (VABB), Mumbai
+AIRLINE: Air India Limited (AIC) ORIGIN: Indira Gandhi Intl (VIDP), Delhi
+AIRLINE: Japan Airlines (JAL) ORIGIN: Indira Gandhi Intl (VIDP), Delhi
+AIRLINE: All Nippon Airways (ANA) ORIGIN: Chhatrapati Shivaji Intl (VABB), Mumbai
+AIRLINE: All Nippon Airways (ANA) ORIGIN: Indira Gandhi Intl (VIDP), Delhi

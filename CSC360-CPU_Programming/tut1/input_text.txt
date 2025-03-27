@@ -1,0 +1,17 @@
+This is a text file full of words.  A 'word' here is defined as a sequence of non-space characters.
+Therefore, punctuation counts as part of a word - this sentence begins with a 10-letter word.
+
+Some lines don't have any words on them.
+
+Your goal is to replicate the word-counting behaviour of the unix utility 'wc -w'.  This utility counts the
+number of words in the file, and prints the count to standard output, followed by a space, the filename, and 
+a newline. No error checking is necessary, unless you'd like the additional challenge.
+
+Name your program word_count.c.  Your program should take one argument - the name of the file to process. For
+example, if I run the following command at the prompt:
+
+./word_count input_text.txt
+
+The output should be:
+
+114 input_text.txt
