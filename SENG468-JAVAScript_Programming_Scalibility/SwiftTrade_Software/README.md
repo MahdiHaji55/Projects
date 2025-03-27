@@ -20,16 +20,17 @@ This repository contains the code for SwiftTrade, a stock trading application.
 
 ## Installation and Running with Docker
 
-1.  **Clone the repository:** `git clone https://github.com/Chaiitanyaa/DayTrade.git`
-2.  **Build the Docker image:**
+1.  **Build the Docker image:**
     ```bash
     docker compose build 
     ```
-3.  **Run the Docker container:**
+2.  **Run the Docker container:**
     ```bash
     docker compose up
     ```
-4. Change the host for your testing to 3001
+3. Change the host for your testing to 3001
+
+4. Can run 10k+ Users simultaneously with little to no Errors
 
 ## API Endpoints
 
