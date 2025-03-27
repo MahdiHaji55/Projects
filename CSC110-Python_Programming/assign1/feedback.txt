@@ -1,0 +1,50 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+MARKING PART A
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Automated Testing Output:
+========================================
+Output (stdout):
+
+
+Output (stderr):
+Traceback (most recent call last):
+  File "assignment1_partA.py", line 66, in <module>
+    E = Width_Of_E*10-F-A
+NameError: name 'Width_Of_E' is not defined
+
+
+Program crashed.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+MARKING PART B
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Automated Testing Output:
+========================================
+Program timed out (after 5 seconds)
+The amount of original mortage loan?
+
+++++++++++++++++++++++++++++++++++++++++
+MARKER COMMENTS
+++++++++++++++++++++++++++++++++++++++++
+
+Comments for assignment1_partA.ipynb
+----------------------------------------
+
+Use proper variable names. Do not use single character variable names. Variable names should be appropriate to the data they represent.
+Submitted file does not run. Error generated. In future. code that does not run will be given 0 marks
+Write appropriate comments in your code. Write comments so that any other person with programming knowledge can review your code and quickly understand what the code is doing.
+
+Comments for assignment1_partB.ipynb
+----------------------------------------
+
+Use proper variable names. Do not use single character variable names. Variable names should be appropriate to the data they represent.
+Write appropriate comments in your code. Write comments so that any other person with programming knowledge can review your code and quickly understand what the code is doing.
+
+++++++++++++++++++++++++++++++++++++++++
+FINAL MARKS
+++++++++++++++++++++++++++++++++++++++++
+Mark for assignment1_partA.ipynb --> 2 / 5
+Mark for assignment1_partB.ipynb --> 5 / 5
+
+TOTAL MARK --> 7 / 10

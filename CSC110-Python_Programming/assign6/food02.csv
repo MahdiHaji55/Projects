@@ -1,0 +1,6 @@
+grasshopper,grass
+lizard,grasshopper
+hawk,grasshopper,lizard,rabbit,mouse,snake
+rabbit,grass
+snake,mouse
+mouse,grass

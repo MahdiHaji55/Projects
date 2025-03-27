@@ -1,0 +1,9 @@
+goat,plants
+jackal,goat,rabbit
+kite,snake,mouse
+lion,goat,jackal,wild cat
+mouse,plants
+owl,mouse
+rabbit,plants
+snake,mouse
+wild cat,rabbit,mouse

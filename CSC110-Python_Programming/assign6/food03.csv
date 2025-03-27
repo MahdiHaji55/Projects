@@ -1,0 +1,9 @@
+bird,prawn,mussels,crab,limpets,whelk
+crab,mussels,limpets
+fish,prawn
+limpets,seaweed
+lobster,crab,mussels,limpets,whelk
+mussels,phytoplankton,zooplankton
+prawn,zooplankton
+whelk,limpets,mussels
+zooplankton,phytoplankton
